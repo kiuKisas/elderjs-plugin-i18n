@@ -1,0 +1,18 @@
+{
+  "name": "elder-plugin-i18n",
+  "version": "0.0.1",
+  "description": "i18n support for your Elder.js powered website.",
+  "keywords": [
+    "i18n",
+    "elder.js",
+    "elderjs",
+    "svelte",
+    "ssg",
+    "static",
+    "site",
+    "generator"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {}
+}
