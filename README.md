@@ -1,13 +1,13 @@
 # Elder.js Plugin: i18n
 
 ## Status: WIP
-You can use it right now but some features will not work until PR#90 is merged.
+You can use it right now but some features will not work until [PR#97](https://github.com/Elderjs/elderjs/pull/97) is merged.
 
 - [ ] Documentation
 - [ ] `svelte-i18n` integration
 
 ## Current issues
-- [ ] html lang attribute (waiting for PR #90)
+- [ ] html lang attribute (waiting for [PR#97](https://github.com/Elderjs/elderjs/pull/97))
 - [ ] `excludesLocales` option will break `allPermalinks` helpers
 
 ## Features
