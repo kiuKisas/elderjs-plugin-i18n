@@ -8,7 +8,7 @@ const defaultHooks = [
     description: 'Set i18n locales origin and hrefOrigin',
     priority: 100,
     run: async ({ settings, plugin }) => {
-      plugin.config.locales.forEach((locale) => {
+      plugin.config.locales.all.forEach((locale) => {
         const newLocale = Object.assign({}, locale);
         newLocale.prefix = '/' + (locale.prefix !== undefined ? locale.prefix : locale.iso);
         newLocale.hrefOrigin = locale.origin || settings.origin;
@@ -62,7 +62,7 @@ const optionalHooks = {
     description: 'Set i18n lang attribute to html tag',
     priority: 100,
     run: async ({ htmlAttributesStack, request, plugin }) => {
-      const locale = plugin.config.locales.find((locale) => locale.code === request.locale);
+      const locale = plugin.config.locales.all.find((locale) => locale.code === request.locale);
       if (locale === undefined) return {};
       return {
         htmlAttributesStack: [
@@ -83,7 +83,7 @@ const optionalHooks = {
     priority: 90,
     run: async ({ allRequests, plugin }) => {
       return {
-        allRequests: allRequests.filter((request) => !plugin.config.excludeLocales.includes(request.locale)),
+        allRequests: allRequests.filter((request) => !plugin.config.locales.excludes.includes(request.locale)),
       };
     },
   },
@@ -93,7 +93,7 @@ const getOptionalHooks = (config) => {
   const keys = Object.keys(optionalHooks);
   const hooks = [];
   keys.forEach((key) => {
-    if (config[key] === true) {
+    if (config.seo[key] === true || config[key] === true) {
       hooks.push(optionalHooks[key]);
     }
   });

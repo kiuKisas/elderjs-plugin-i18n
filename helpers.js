@@ -23,7 +23,7 @@ const i18nHelpers = (helpers, settings, routes, plugin) => {
     requests: (reqs) => {
       const requests = [];
       reqs.forEach((req) => {
-        plugin.config.locales.forEach((locale) => {
+        plugin.config.locales.all.forEach((locale) => {
           //if (plugin.config.excludeLocales.includes(locale.code)) return;
           requests.push(Object.assign({}, req, { locale: locale.code }));
         });
@@ -33,11 +33,11 @@ const i18nHelpers = (helpers, settings, routes, plugin) => {
     generatePermalink: generatePermalink(
       plugin.config.permalink,
       plugin.dictionaries.locales,
-      plugin.config.defaultLocale,
+      plugin.config.locales.default,
     ),
     permalinks: i18nPermalinks(routes, settings, helpers),
     allPermalinks: ({ route, slug }) => {
-      const isI18nRoute = plugin.dictionaries.requests[plugin.config.defaultLocale][route] !== undefined;
+      const isI18nRoute = plugin.dictionaries.requests[plugin.config.locales.default][route] !== undefined;
       if (!isI18nRoute) return [];
       return plugin.locales.map((locale) => {
         const origin = plugin.dictionaries.locales[locale].origin;
