@@ -62,17 +62,21 @@ A locale in this plugin is defined like this:
 - `origin (optional)`: If your website use different domains (or subdomains), you can specify an other origin here.
 
 `all`: An array containing all your locales as define previously.
+
 You can also use a simple string as a shortcut, e.g: `'fr'` become `{ code: 'fr', iso: 'fr'}` .
+
 `default`: The default locale code.
+
 `excludes`: An array of locale code to excludes from generation, but keeping the links. Can be used in the case of internationalization with multiples domains.
 
 ### Permalink
-Options 
-  `prefix`: add the corresponding locale locale before the permalink. e.g: `/example` with `{code: 'en'}` locale will become `/en/example`.
-  `defaultPrefix`: if the default locale should have a prefix or not.
+`prefix`: add the corresponding locale locale before the permalink. e.g: `/example` with `{code: 'en'}` locale will become `/en/example`.
+
+`defaultPrefix`: if the default locale should have a prefix or not.
 
 ### Seo
 `hreflang`: Generate hreflang links into the head of your document.
+
 `lang`: Add the `lang` attribute with th corresponding locale to your body.
 
 ## Helpers
