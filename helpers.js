@@ -20,7 +20,7 @@ const generatePermalink = ({ prefix, prefixDefault }, locales, defaultLocale) =>
 
 const i18nHelpers = (helpers, settings, routes, plugin) => {
   return {
-    requests: (reqs) => {
+    generateRequests: (reqs) => {
       const requests = [];
       reqs.forEach((req) => {
         plugin.config.locales.all.forEach((locale) => {
