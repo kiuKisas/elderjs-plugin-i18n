@@ -12,7 +12,7 @@ You can use it right now but some features will not work until [PR#97](https://g
 
 ## Current issues
 - [ ] html lang attribute (waiting for [PR#97](https://github.com/Elderjs/elderjs/pull/97))
-- [ ] `locales: { excludes: [] }` option will break `allPermalinks` helpers
+- [ ] `locales: { excludes: [] }` option will break `allPermalinks` helpers and `hreflangs`generation.
 
 ## Features
 - 0kb js in the build ( or integration with `svelte-i18n` soon ).
