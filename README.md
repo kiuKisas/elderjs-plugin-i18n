@@ -83,7 +83,7 @@ You can also use a simple string as a shortcut, e.g: `'fr'` become `{ code: 'fr'
 This plugin come with somes helpers define in `helpers.i18n` accessible in your `route.js` file. These helpers can be describe in two categories:
 ### Generation
 They generate the new routes according to the plugins options. They have to be used in your `route.js` for the pages you want to internationalize.
-- `generateRequests([request]) : [request]`: generate requests for each locales. It will add an `lang` attributes.
+- `generateRequests([request]) : [request]`: generate requests for each locales. It will add a `locale` attributes.
 - `generatePermalink(permalink, locale): permalink`: generate permalink according to plugins options and a given locale.
 ### Access
 - `permalink(request) : permalink`: act as the default permalink helpers
@@ -91,3 +91,12 @@ They generate the new routes according to the plugins options. They have to be u
 
 ## Example
 
+```javascript
+# route.js
+
+module.exports = {
+  all: async ({ helpers }) => helpers.i18n.generateRequests([{slug: 'example'}]), # [{slug: 'example', locale: 'en'}, ...]
+  permalink: ({ request, helpers }) => helpers.i18n.generatePermalink(request.slug, request.locale); # '/en/example'
+  data: async ({ helpers, request }) => { links: helpers.i18n.allPermalinks(request), }, # [{ locale: 'en', permalink: '/en/example' }, ...]
+  }
+```
