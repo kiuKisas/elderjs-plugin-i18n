@@ -92,11 +92,11 @@ They generate the new routes according to the plugins options. They have to be u
 ## Example
 
 ```javascript
-# route.js
+// route.js
 
 module.exports = {
-  all: async ({ helpers }) => helpers.i18n.generateRequests([{slug: 'example'}]), # [{slug: 'example', locale: 'en'}, ...]
-  permalink: ({ request, helpers }) => helpers.i18n.generatePermalink(request.slug, request.locale); # '/en/example'
-  data: async ({ helpers, request }) => { links: helpers.i18n.allPermalinks(request), }, # [{ locale: 'en', permalink: '/en/example' }, ...]
+  all: async ({ helpers }) => helpers.i18n.generateRequests([{slug: 'example'}]), // [{slug: 'example', locale: 'en'}, ...]
+  permalink: ({ request, helpers }) => helpers.i18n.generatePermalink(request.slug, request.locale), // '/en/example'
+  data: async ({ helpers, request }) => { links: helpers.i18n.allPermalinks(request), }, // [{ locale: 'en', permalink: '/en/example' }, ...]
   }
 ```
