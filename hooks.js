@@ -1,5 +1,5 @@
-const { fillDictionary, makeHreflang } = require('./utils');
-const { i18nHelpers } = require('./helpers');
+const { fillDictionary, fillDictionaryWithCopy, makeHreflang, getPermalink } = require('./utils')
+const { i18nHelpers } = require('./helpers')
 
 const defaultHooks = [
   {
@@ -9,15 +9,14 @@ const defaultHooks = [
     priority: 100,
     run: async ({ settings, plugin }) => {
       plugin.config.locales.all.forEach((locale) => {
-        const newLocale = Object.assign({}, locale);
-        newLocale.prefix = '/' + (locale.prefix !== undefined ? locale.prefix : locale.iso);
-        newLocale.hrefOrigin = locale.origin || settings.origin;
-        if (newLocale.origin === undefined) {
-          newLocale.origin = '';
-        }
-        plugin.dictionaries.locales[locale.code] = newLocale;
-      });
-    },
+        const validLocale = Object.assign({}, locale, {
+          prefix: '/' + (locale.prefix !== undefined ? locale.prefix : locale.iso),
+          hrefOrigin: locale.origin || settings.origin,
+          origin: locale.origin || ''
+        })
+        plugin.dictionaries.locales[locale.code] = validLocale
+      })
+    }
   },
   {
     hook: 'bootstrap',
@@ -25,19 +24,28 @@ const defaultHooks = [
     description: 'Set i18n helpers for route file, except generatePermalink who need i18nLocalesOrigin',
     priority: 99,
     run: async ({ helpers, settings, routes, plugin }) => {
-      Object.assign(helpers, { i18n: i18nHelpers(helpers, settings, routes, plugin) });
-    },
+      Object.assign(helpers, { i18n: i18nHelpers(helpers, settings, routes, plugin) })
+    }
   },
   {
     hook: 'allRequests',
     name: 'i18nRequestDictionary',
     description: 'Fill i18n requests dictionary',
     priority: 100,
-    run: async ({ plugin, allRequests }) => {
-      fillDictionary(plugin.dictionaries.requests, allRequests);
-    },
-  },
-];
+    run: async ({ plugin, allRequests, routes, settings, helpers }) => {
+      // If we exclude locales, we want a copy with permalink to not break permalink calls
+      if (plugin.config.enableExcludeLocales) {
+        await fillDictionaryWithCopy(
+          plugin.dictionaries.requests,
+          allRequests,
+          (request) => getPermalink(request, { routes, settings, helpers })
+        )
+      } else {
+        await fillDictionary(plugin.dictionaries.requests, allRequests)
+      }
+    }
+  }
+]
 
 const optionalHooks = {
   hreflang: {
@@ -47,14 +55,14 @@ const optionalHooks = {
     priority: 100,
     run: async ({ headStack, plugin, request }) => {
       const hreflangs = plugin.locales.map((locale) => {
-        const origin = plugin.dictionaries.locales[locale].hrefOrigin;
-        const route = plugin.dictionaries.requests[locale][request.route];
-        if (route === undefined) return {};
-        const permalink = route[request.slug].permalink;
-        return makeHreflang(locale, origin + permalink);
-      });
-      headStack.push(...hreflangs);
-    },
+        const origin = plugin.dictionaries.locales[locale].hrefOrigin
+        const route = plugin.dictionaries.requests[locale][request.route]
+        if (route === undefined) return {}
+        const permalink = route[request.slug].permalink
+        return makeHreflang(locale, origin + permalink)
+      })
+      headStack.push(...hreflangs)
+    }
   },
   lang: {
     hook: 'stacks',
@@ -62,19 +70,19 @@ const optionalHooks = {
     description: 'Set i18n lang attribute to html tag',
     priority: 100,
     run: async ({ htmlAttributesStack, request, plugin }) => {
-      const locale = plugin.config.locales.all.find((locale) => locale.code === request.locale);
-      if (locale === undefined) return {};
+      const locale = plugin.config.locales.all.find((locale) => locale.code === request.locale)
+      if (locale === undefined) return {}
       return {
         htmlAttributesStack: [
           ...htmlAttributesStack.filter((attr) => attr.source !== 'elderAddHtmlLangAttributes'),
           {
             source: 'i18nHtmlLang',
             priority: 100,
-            string: `lang="${locale.iso}"`,
-          },
-        ],
-      };
-    },
+            string: `lang="${locale.iso}"`
+          }
+        ]
+      }
+    }
   },
   enableExcludeLocales: {
     hook: 'allRequests',
@@ -83,21 +91,21 @@ const optionalHooks = {
     priority: 90,
     run: async ({ allRequests, plugin }) => {
       return {
-        allRequests: allRequests.filter((request) => !plugin.config.locales.excludes.includes(request.locale)),
-      };
-    },
-  },
-};
+        allRequests: allRequests.filter((request) => !plugin.config.locales.excludes.includes(request.locale))
+      }
+    }
+  }
+}
 
 const getOptionalHooks = (config) => {
-  const keys = Object.keys(optionalHooks);
-  const hooks = [];
+  const keys = Object.keys(optionalHooks)
+  const hooks = []
   keys.forEach((key) => {
     if (config.seo[key] === true || config[key] === true) {
-      hooks.push(optionalHooks[key]);
+      hooks.push(optionalHooks[key])
     }
-  });
-  return hooks;
-};
+  })
+  return hooks
+}
 
-module.exports = { defaultHooks, getOptionalHooks };
+module.exports = { defaultHooks, getOptionalHooks }
