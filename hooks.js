@@ -1,4 +1,4 @@
-const { fillDictionary, fillDictionaryWithCopy, makeHreflang, getPermalink } = require('./utils')
+const { fillDictionary, makeHreflang, getPermalink } = require('./utils')
 const { i18nHelpers } = require('./helpers')
 
 const defaultHooks = [
@@ -35,7 +35,7 @@ const defaultHooks = [
     run: async ({ plugin, allRequests, routes, settings, helpers }) => {
       // If we exclude locales, we want a copy with permalink to not break permalink calls
       if (plugin.config.enableExcludeLocales) {
-        await fillDictionaryWithCopy(
+        await fillDictionary(
           plugin.dictionaries.requests,
           allRequests,
           (request) => getPermalink(request, { routes, settings, helpers })
