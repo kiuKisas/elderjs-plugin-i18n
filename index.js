@@ -1,8 +1,7 @@
 const { defaultHooks, getOptionalHooks } = require('./hooks')
-const { enableClientSide } = require('./clientSide/index')
 
 const plugin = {
-  name: 'i18n',
+  name: 'elderjs-plugin-i18n',
   description: 'i18n support for elderjs',
   init: (plugin) => {
     plugin.config.enableExcludeLocales = plugin.config.locales.excludes.length > 0
