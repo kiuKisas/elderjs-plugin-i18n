@@ -3,7 +3,7 @@
 i18n (internationalization) for [elderjs](https://github.com/Elderjs/elderjs/).
 
 ## Status: WIP
-You can use it right now but some features will not work until [PR#97](https://github.com/Elderjs/elderjs/pull/97) is merged.
+You can use it right now but some features will not work until [PR#115](https://github.com/Elderjs/elderjs/pull/115) is merged.
 
 ### TODO
 - [ ] Documentation
@@ -11,8 +11,8 @@ You can use it right now but some features will not work until [PR#97](https://g
 - [ ] `svelte-i18n` integration
 
 ## Current issues
-- [ ] html lang attribute (waiting for [PR#97](https://github.com/Elderjs/elderjs/pull/97))
-- [ ] `locales: { excludes: [] }` option will break `allPermalinks` helpers and `hreflangs` generation. (discuss here [issue#106](https://github.com/Elderjs/elderjs/issues/106))
+- [ ] html lang attribute (waiting for [PR#115](https://github.com/Elderjs/elderjs/pull/115))
+
 
 ## Features
 - 0kb js in the build ( or integration with `svelte-i18n` soon ).
