@@ -1,3 +1,9 @@
+const { fillEntry } = require('./utils')
+
+//
+// Permalinks
+//
+
 // Fix permalink helpers with access to helpers
 const i18nPermalinks = (routes, settings, helpers) =>
   Object.keys(routes).reduce((out, cv) => {
@@ -18,12 +24,17 @@ const generatePermalink = ({ prefix, prefixDefault }, locales, defaultLocale) =>
   return (permalink, locale) => (locale === defaultLocale ? permalink : createi18nPermalink(permalink, locale))
 }
 
+//
+// Helpers
+//
+
 const i18nHelpers = (helpers, settings, routes, plugin) => {
   return {
     generateRequests: (reqs) => {
       const requests = []
       reqs.forEach((req) => {
         plugin.config.locales.all.forEach((locale) => {
+          // TODO: check this out
           // if (plugin.config.excludeLocales.includes(locale.code)) return;
           requests.push(Object.assign({}, req, { locale: locale.code }))
         })
@@ -46,6 +57,11 @@ const i18nHelpers = (helpers, settings, routes, plugin) => {
           permalink: origin + plugin.dictionaries.requests[locale][route][slug].permalink
         }
       })
+    },
+    addData: (request, data) => {
+      const newData = {}
+      newData[request.slug] = data
+      fillEntry(plugin.dictionaries.data, request.lang, request.route, newData)
     },
     dictionaries: plugin.dictionaries,
     locales: () => plugin.locales
