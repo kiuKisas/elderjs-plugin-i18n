@@ -46,6 +46,7 @@ const defaultHooks = [
     }
   }
 ]
+const { clients, clientOptions, fillClientDictionary } = require('./clients/index')
 
 const optionalHooks = {
   hreflang: {
@@ -94,7 +95,42 @@ const optionalHooks = {
         allRequests: allRequests.filter((request) => !plugin.config.locales.excludes.includes(request.locale))
       }
     }
+  },
+  client: [{
+    hook: 'bootstrap',
+    name: 'i18nAddClient',
+    description: 'add client to plugin with its options, according to elder.config',
+    priority: 100,
+    run: async ({ plugin }) => {
+      const client = clients[plugin.settings.client.name]
+      if (client === undefined) {
+        console.error(`I18n Error: client with name: ${plugin.settings.client.name} is not available.`)
+        return
+      }
+      const options = clientOptions(client, plugin.settings.locale.defaultLocale, plugin.settings.client)
+      plugin.clientSide = { client, options }
+    }
+  },
+  {
+    hook: 'data',
+    name: 'i18nClientFillData',
+    description: 'add data added by `addData` helper to i18nClient from, dictionaries.data',
+    priority: 100,
+    run: async ({ request, plugin }) => {
+      plugin.clientSide.client.addEntry(request.lang, plugin.dictionaries.data[request.lang])
+    }
+  },
+  {
+    hook: 'data',
+    name: 'i18nClientInit',
+    description: 'initialise i18n Client',
+    priority: 99,
+    run: async ({ plugin }) => {
+      plugin.clientSide.client.init(plugin.clientSide.options)
+    }
   }
+
+  ]
 }
 
 const getOptionalHooks = (config) => {
@@ -102,7 +138,12 @@ const getOptionalHooks = (config) => {
   const hooks = []
   keys.forEach((key) => {
     if (config.seo[key] === true || config[key] === true) {
-      hooks.push(optionalHooks[key])
+      const newHook = optionalHooks[key]
+      if (Array.isArray(newHook)) {
+        hooks.push(...newHook)
+      } else {
+        hooks.push(newHook)
+      }
     }
   })
   return hooks

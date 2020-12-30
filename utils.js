@@ -15,6 +15,14 @@ const makeHreflang = (locale, url) => {
 // Dictionnaries
 //
 
+const fillEntry = (dictionary, locale, key, entry) => {
+  if (dictionary[locale][key] === undefined) {
+    dictionary[locale][key] = entry
+  } else {
+    Object.assign(dictionary[locale][key], entry)
+  }
+}
+
 const fillDictionary = async (dictionary, allRequests, getExtraData) => {
   const getData = getExtraData
     ? async (request) => {
@@ -35,10 +43,12 @@ const fillDictionary = async (dictionary, allRequests, getExtraData) => {
     dictionary[request.locale][request.route][request.slug] = data
   })
 }
+
 //
 // Set permalinks to request, based on elderjs code
 // Basically a copy of src/Elder.ts way, but with a refacto to match my taste
 // Need createReadOnlyProxy implementation
+//
 
 const createReadOnlyProxy = (obj, objName, location) => {
   try {
@@ -75,4 +85,4 @@ const getPermalink = async (request, { routes, settings, helpers }) => {
   }
 }
 
-module.exports = { fillDictionary, fillDictionaryWithCopy, makeHreflang, getPermalink }
+module.exports = { fillDictionary, fillEntry, makeHreflang, getPermalink }

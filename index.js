@@ -34,6 +34,14 @@ const plugin = {
     seo: {
       hreflang: true,
       lang: true
+    },
+    client: {
+      name: 'svelte-i18n',
+      config: {
+        initialLocale: 'navigator',
+        fallback: 'default'
+      },
+      options: {}
     }
   }
 }
