@@ -75,4 +75,4 @@ const getPermalink = async (request, { routes, settings, helpers }) => {
   }
 }
 
-module.exports = { fillDictionary, fillDictionaryWithCopy, makeHreflang, getPermalink }
+module.exports = { fillDictionary, makeHreflang, getPermalink }
