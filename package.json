@@ -21,5 +21,17 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kiuKisas/elderjs-plugin-i18n.git"
+  },
+  "author": "kiuKisas",
+  "bugs": {
+    "url": "https://github.com/kiuKisas/elderjs-plugin-i18n/issues"
+  },
+  "homepage": "https://github.com/kiuKisas/elderjs-plugin-i18n#readme"
 }

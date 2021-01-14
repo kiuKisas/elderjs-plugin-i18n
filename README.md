@@ -1,4 +1,5 @@
 # Elder.js Plugin: i18n
+[![npm version](https://badge.fury.io/js/elderjs-plugin-i18n.svg)](https://badge.fury.io/js/elderjs-plugin-i18n)
 
 i18n (internationalization) for [elderjs](https://github.com/Elderjs/elderjs/).
 You will need `elderjs v1.2.5` or higher.
