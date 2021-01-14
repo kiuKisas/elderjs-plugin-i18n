@@ -1,25 +1,21 @@
 # Elder.js Plugin: i18n
 
 i18n (internationalization) for [elderjs](https://github.com/Elderjs/elderjs/).
-
-## Status: WIP
-You can use it right now but some features will not work until [PR#115](https://github.com/Elderjs/elderjs/pull/115) is merged.
-
-### TODO
-- [ ] Documentation
-- [ ] More examples
-- [ ] `svelte-i18n` integration
-
-## Current issues
-- [ ] html lang attribute (waiting for [PR#115](https://github.com/Elderjs/elderjs/pull/115))
-
+You will need `elderjs v1.2.5` or higher.
 
 ## Features
-- 0kb js in the build ( or integration with `svelte-i18n` soon ).
-- Automatic routes generation and custom paths.
-- Search engine optimisation.
-- Support language (in ISO 639-1 format) and optionally a region (in ISO 3166-1 Alpha 2 format).
-- Access permalink/routes for alternative locales.
+- [x] 0kb js in the build.
+- [x] Automatic routes generation and custom paths.
+- [x] Search engine optimisation.
+- [x] Support language (in ISO 639-1 format) and optionally a region (in ISO 3166-1 Alpha 2 format).
+- [x] Access permalink/routes for alternative locales.
+- [ ] integration with `svelte-i18n` ( [PR#3](https://github.com/kiuKisas/elderjs-plugin-i18n/pull/3) )
+- [ ] Redirection
+
+## TODO
+- [ ] site example
+- [ ] Better documentation
+- [ ] More examples
 
 ## Install
 
@@ -55,12 +51,13 @@ plugins: {
 ### Locales
 A locale in this plugin is defined like this:
 ```
-{ code: 'en', iso: 'en', origin: 'https://different-origin.uk' }
+{
+  code: 'en', // your local code. It's used as an id and prefix for permalink.
+  iso: 'en', // your iso code, e.g: `en` or `en-GB`.
+  origin: 'https://different-origin.uk' // ( Optional ). Set a diffent domains/subdomains.
+  }
 ```
-- `code`: your local code. It's used as an id, prefix for permalink.
-- `iso`: your iso code, e.g: `en` or `en-GB`.
-- `origin (optional)`: If your website use different domains (or subdomains), you can specify an other origin here.
-
+In the configuration:
 `all`: An array containing all your locales as define previously.
 
 You can also use a simple string as a shortcut, e.g: `'fr'` become `{ code: 'fr', iso: 'fr'}` .
