@@ -33,16 +33,11 @@ const defaultHooks = [
     description: 'Fill i18n requests dictionary',
     priority: 100,
     run: async ({ plugin, allRequests, routes, settings, helpers }) => {
-      // If we exclude locales, we want a copy with permalink to not break permalink calls
-      if (plugin.config.enableExcludeLocales) {
-        await fillDictionary(
-          plugin.dictionaries.requests,
-          allRequests,
-          (request) => getPermalink(request, { routes, settings, helpers })
-        )
-      } else {
-        await fillDictionary(plugin.dictionaries.requests, allRequests)
-      }
+      await fillDictionary(
+        plugin.dictionaries.requests,
+        allRequests,
+        (request) => getPermalink(request, { routes, settings, helpers }, plugin.config.permalink.lastSlash)
+      )
     }
   }
 ]

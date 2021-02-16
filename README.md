@@ -39,6 +39,7 @@ plugins: {
       permalink: {
         prefix: true,
         prefixDefault: false,
+        lastSlash: true
       },
       seo: {
         hreflang: true,
@@ -71,6 +72,8 @@ You can also use a simple string as a shortcut, e.g: `'fr'` become `{ code: 'fr'
 `prefix`: add the corresponding locale locale before the permalink. e.g: `/example` with `{code: 'en'}` locale will become `/en/example`.
 
 `defaultPrefix`: if the default locale should have a prefix or not.
+
+`lastSlash`: when asking for a permalink through this plugins, should it return the last slash or not.
 
 ### Seo
 `hreflang`: Generate hreflang links into the head of your document.

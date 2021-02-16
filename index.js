@@ -29,7 +29,8 @@ const plugin = {
     },
     permalink: {
       prefix: true,
-      prefixDefault: true
+      prefixDefault: true,
+      lastSlash: true
     },
     seo: {
       hreflang: true,

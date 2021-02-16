@@ -56,7 +56,7 @@ const createReadOnlyProxy = (obj, objName, location) => {
   }
 }
 
-const getPermalink = async (request, { routes, settings, helpers }) => {
+const getPermalink = async (request, { routes, settings, helpers }, lastSlash = true) => {
   if (!routes[request.route] || !routes[request.route].permalink) {
     const msg = request.route
       ? 'Request missing permalink but has request.route defined. This shouldn\'t be an Elder.js issue but if you believe it could be please create an issue.'
@@ -71,7 +71,7 @@ const getPermalink = async (request, { routes, settings, helpers }) => {
   return {
     permalink: (settings && settings.server && settings.server.prefix)
       ? settings.server.prefix + permalink
-      : permalink
+      : lastSlash ? permalink : permalink.slice(0, -1)
   }
 }
 

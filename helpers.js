@@ -1,8 +1,10 @@
+const path = require('path')
 // Fix permalink helpers with access to helpers
-const i18nPermalinks = (routes, settings, helpers) =>
+const i18nPermalinks = (routes, settings, helpers, lastSlash = false) =>
   Object.keys(routes).reduce((out, cv) => {
     const prefix = settings.server && settings.server.prefix ? settings.server.prefix : ''
-    out[cv] = (data) => `${prefix}${routes[cv].permalink({ request: data, settings, helpers })}`
+    const permalink = (data) => `${prefix}${routes[cv].permalink({ request: data, settings, helpers })}`
+    out[cv] = lastSlash ? permalink : (data) => permalink(data).slice(0, -1)
     return out
   }, {})
 
@@ -35,7 +37,7 @@ const i18nHelpers = (helpers, settings, routes, plugin) => {
       plugin.dictionaries.locales,
       plugin.config.locales.default
     ),
-    permalinks: i18nPermalinks(routes, settings, helpers),
+    permalinks: i18nPermalinks(routes, settings, helpers, plugin.config.permalink.lastSlash),
     allPermalinks: ({ route, slug }) => {
       const isI18nRoute = plugin.dictionaries.requests[plugin.config.locales.default][route] !== undefined
       if (!isI18nRoute) return []
@@ -43,7 +45,7 @@ const i18nHelpers = (helpers, settings, routes, plugin) => {
         const origin = plugin.dictionaries.locales[locale].origin
         return {
           locale: locale,
-          permalink: origin + plugin.dictionaries.requests[locale][route][slug].permalink
+          permalink: path.join(origin, plugin.dictionaries.requests[locale][route][slug].permalink)
         }
       })
     },
