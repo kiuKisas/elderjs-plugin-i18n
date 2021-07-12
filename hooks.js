@@ -31,7 +31,7 @@ const defaultHooks = [
     hook: 'allRequests',
     name: 'i18nRequestDictionary',
     description: 'Fill i18n requests dictionary',
-    priority: 100,
+    priority: 99,
     run: async ({ plugin, allRequests, routes, settings, helpers }) => {
       await fillDictionary(
         plugin.dictionaries.requests,
