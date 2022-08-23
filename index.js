@@ -1,4 +1,5 @@
 const { defaultHooks, getOptionalHooks } = require('./hooks')
+const { i18nShortcodes } = require('./shortcodes')
 
 const plugin = {
   name: 'elderjs-plugin-i18n',
@@ -21,6 +22,7 @@ const plugin = {
     })
   },
   hooks: defaultHooks,
+  shortcodes: i18nShortcodes,
   config: {
     locales: {
       default: 'en',
